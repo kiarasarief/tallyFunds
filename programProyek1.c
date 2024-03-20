@@ -107,7 +107,7 @@ void tambahTransaksi() {
     system("cls"); // Membersihkan layar
     struct Transaksi t;
     FILE *file;
-    file = fopen("pendataan2.txt", "a"); // Membuka file untuk menambahkan data
+    file = fopen("pendataan.txt", "a"); // Membuka file untuk menambahkan data
     
     printf("\nTambah Transaksi\n");
     
@@ -167,7 +167,7 @@ void lihatTransaksi() {
     printf("\nLihat Transaksi\n");
     struct Transaksi t;
     FILE *file;
-    file = fopen("pendataan2.txt", "r"); // Membuka file untuk membaca data
+    file = fopen("pendataan.txt", "r"); // Membuka file untuk membaca data
     
     if (file == NULL) {
         printf("Belum ada transaksi yang dimasukkan.\n");
@@ -206,7 +206,7 @@ void searchTransaksi() {
     fflush(stdin);
     
     FILE *file;
-    file = fopen("pendataan2.txt", "r"); // Membuka file untuk membaca data
+    file = fopen("pendataan.txt", "r"); // Membuka file untuk membaca data
     
     if (file == NULL) {
         printf("Belum ada transaksi yang dimasukkan.\n");
@@ -238,7 +238,7 @@ void urutkanTransaksi() {
     struct Transaksi *transaksi;
     int jumlahTransaksi = 0;
     FILE *file;
-    file = fopen("pendataan2.txt", "r"); // Membuka file untuk membaca data
+    file = fopen("pendataan.txt", "r"); // Membuka file untuk membaca data
     
     if (file == NULL) {
         printf("Belum ada transaksi yang dimasukkan.\n");
