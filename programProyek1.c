@@ -8,7 +8,7 @@ Group 13:
 Class: PROGLAN02 (Dr. Ir. Dodi Sudiana M.Eng.)
 Date: 18/03/2024
 Version Number: 1.0
-
+1
 "Advanced Programming Practicum"
 Final Project - "TallyFunds: Program Pencatat Uang Pengeluaran dan Pendapatan"
 
@@ -29,161 +29,22 @@ There are 5 main features in this program:
 
 #define SIZE 100 // Ukuran maksimum array transaksi
 
+// Prototipe fungsi-fungsi
+void displayMenu();
+void displayHelp();
+void tambahTransaksi();
+void lihatTransaksi();
+void searchTransaksi();
+void urutkanTransaksi();
+int compare(const void *a, const void *b);
+void cariTransaksi(char jenisCari[20], FILE *file);
+void displayJenisPengeluaran();
+
 // Struktur untuk menyimpan data transaksi
-struct Transaksi {
-    char jenis[20];
+typedef struct Transaksi {
+    char jenis[50];
     float jumlah;
-};
-
-// Fungsi untuk menampilkan menu
-void displayMenu() {
-    system("cls"); // Membersihkan layar
-    printf("\n=== Program Pencatat Uang ===\n");
-    printf("1. Help\n");
-    printf("2. Tambah Transaksi\n");
-    printf("3. Lihat Transaksi\n");
-    printf("4. Cari Transaksi\n");
-    printf("5. Urutkan Transaksi\n");
-    printf("6. Exit\n");
-}
-
-// Fungsi untuk menampilkan bantuan
-void displayHelp() {
-    system("cls"); // Membersihkan layar
-    printf("\n=== Bantuan ===\n");
-    printf("Program Pencatat Uang Pengeluaran dan Pendapatan\n");
-    printf("1. Pilih opsi 'Tambah Transaksi' untuk menambahkan transaksi baru.\n");
-    printf("2. Pilih opsi 'Lihat Transaksi' untuk melihat semua transaksi yang telah dimasukkan.\n");
-    printf("3. Pilih opsi 'Cari Transaksi' untuk mencari transaksi berdasarkan jenisnya.\n");
-    printf("4. Pilih opsi 'Urutkan Transaksi' untuk mengurutkan transaksi berdasarkan jumlahnya.\n");
-    printf("5. Pilih opsi 'Exit' untuk keluar dari program.\n");
-    printf("6. Selamat menggunakan!\n");
-}
-
-// Fungsi untuk menambahkan transaksi
-void tambahTransaksi() {
-    system("cls"); // Membersihkan layar
-    struct Transaksi t;
-    FILE *file;
-    file = fopen("pendataan.txt", "a"); // Membuka file untuk menambahkan data
-    
-    printf("\nTambah Transaksi\n");
-    printf("Jenis (Pengeluaran/Pendapatan): ");
-    scanf("%s", t.jenis);
-    printf("Jumlah: ");
-    scanf("%f", &t.jumlah);
-    
-    // Menulis data ke file
-    fprintf(file, "%s %.2f\n", t.jenis, t.jumlah);
-    
-    fclose(file); // Menutup file
-    printf("Transaksi berhasil ditambahkan.\n");
-}
-
-// Fungsi untuk melihat transaksi
-void lihatTransaksi() {
-    system("cls"); // Membersihkan layar
-    printf("\nLihat Transaksi\n");
-    struct Transaksi t;
-    FILE *file;
-    file = fopen("pendataan.txt", "r"); // Membuka file untuk membaca data
-    
-    if (file == NULL) {
-        printf("Belum ada transaksi yang dimasukkan.\n");
-        return;
-    }
-    
-    printf("Jenis\tJumlah\n");
-    while (fscanf(file, "%s %f", t.jenis, &t.jumlah) != EOF) {
-        printf("%s\t%.2f\n", t.jenis, t.jumlah);
-    }
-    
-    fclose(file); // Menutup file
-}
-
-// Fungsi rekursif untuk mencari transaksi berdasarkan jenisnya
-void cariTransaksi(char jenisCari[20], FILE *file) {
-    struct Transaksi t;
-    if (fscanf(file, "%s %f", t.jenis, &t.jumlah) == EOF)
-        return;
-    
-    if (strcmp(t.jenis, jenisCari) == 0)
-        printf("%s\t%.2f\n", t.jenis, t.jumlah);
-    
-    cariTransaksi(jenisCari, file);
-}
-
-// Fungsi untuk mencari transaksi
-void searchTransaksi() {
-    system("cls"); // Membersihkan layar
-    printf("\nCari Transaksi\n");
-    char jenisCari[20];
-    printf("Masukkan jenis transaksi yang ingin dicari: ");
-    scanf("%s", jenisCari);
-    
-    FILE *file;
-    file = fopen("pendataan.txt", "r"); // Membuka file untuk membaca data
-    
-    if (file == NULL) {
-        printf("Belum ada transaksi yang dimasukkan.\n");
-        return;
-    }
-    
-    printf("Jenis\tJumlah\n");
-    cariTransaksi(jenisCari, file);
-    
-    fclose(file); // Menutup file
-}
-
-// Fungsi untuk membandingkan jumlah transaksi (untuk sorting)
-int compare(const void *a, const void *b) {
-    return (*(struct Transaksi *)a).jumlah - (*(struct Transaksi *)b).jumlah;
-}
-
-// Fungsi untuk mengurutkan transaksi
-void urutkanTransaksi() {
-    system("cls"); // Membersihkan layar
-    printf("\nUrutkan Transaksi\n");
-    
-    struct Transaksi *transaksi;
-    int jumlahTransaksi = 0;
-    FILE *file;
-    file = fopen("pendataan.txt", "r"); // Membuka file untuk membaca data
-    
-    if (file == NULL) {
-        printf("Belum ada transaksi yang dimasukkan.\n");
-        return;
-    }
-    
-    // Menghitung jumlah transaksi
-    while (!feof(file)) {
-        char c = fgetc(file);
-        if (c == '\n')
-            jumlahTransaksi++;
-    }
-    fseek(file, 0, SEEK_SET); // Mengembalikan pointer file ke awal
-    
-    // Mengalokasikan memori untuk array transaksi
-    transaksi = (struct Transaksi *)malloc(jumlahTransaksi * sizeof(struct Transaksi));
-    
-    // Membaca data transaksi ke dalam array
-    int i = 0;
-    while (fscanf(file, "%s %f", transaksi[i].jenis, &transaksi[i].jumlah) != EOF) {
-        i++;
-    }
-    fclose(file); // Menutup file
-    
-    // Mengurutkan transaksi
-    qsort(transaksi, jumlahTransaksi, sizeof(struct Transaksi), compare);
-    
-    // Menampilkan transaksi yang sudah diurutkan
-    printf("Jenis\tJumlah\n");
-    for (i = 0; i < jumlahTransaksi; i++) {
-        printf("%s\t%.2f\n", transaksi[i].jenis, transaksi[i].jumlah);
-    }
-    
-    free(transaksi); // Mendealokasikan memori
-}
+} Transaksi;
 
 int main() {
     int pilihan;
@@ -216,3 +77,201 @@ int main() {
     } while (pilihan != 6);
     return 0;
 }
+
+// Fungsi untuk menampilkan menu
+void displayMenu() {
+    printf("\n=== Selamat Datang di TallyFunds! ===\n");
+    printf("1. Help\n");
+    printf("2. Tambah Transaksi\n");
+    printf("3. Lihat Transaksi\n");
+    printf("4. Cari Transaksi\n");
+    printf("5. Urutkan Transaksi\n");
+    printf("6. Exit\n");
+}
+
+// Fungsi untuk menampilkan bantuan
+void displayHelp() {
+    system("cls"); // Membersihkan layar
+    printf("\n=== Bantuan ===\n");
+    printf("Program Pencatat Uang Pengeluaran dan Pendapatan\n");
+    printf("1. Pilih opsi 'Tambah Transaksi' untuk menambahkan transaksi baru.\n");
+    printf("2. Pilih opsi 'Lihat Transaksi' untuk melihat semua transaksi yang telah dimasukkan.\n");
+    printf("3. Pilih opsi 'Cari Transaksi' untuk mencari transaksi berdasarkan jenisnya.\n");
+    printf("4. Pilih opsi 'Urutkan Transaksi' untuk mengurutkan transaksi berdasarkan jumlahnya.\n");
+    printf("5. Pilih opsi 'Exit' untuk keluar dari program.\n");
+    printf("6. Selamat menggunakan!\n");
+}
+
+// Fungsi untuk menambahkan transaksi
+void tambahTransaksi() {
+    system("cls"); // Membersihkan layar
+    struct Transaksi t;
+    FILE *file;
+    file = fopen("pendataan2.txt", "a"); // Membuka file untuk menambahkan data
+    
+    printf("\nTambah Transaksi\n");
+    
+    int pilihanJenis;
+    printf("Pilih Jenis (1. Pengeluaran, 2. Pendapatan): ");
+    scanf("%d", &pilihanJenis);
+    
+    if (pilihanJenis == 1) {
+        displayJenisPengeluaran();
+        printf("Pilih Kategori Pengeluaran: ");
+        int pilihanKategori;
+        scanf("%d", &pilihanKategori);
+        
+        switch (pilihanKategori) {
+            case 1:
+                strcpy(t.jenis, "Makan");
+                break;
+            case 2:
+                strcpy(t.jenis, "Transportasi");
+                break;
+            case 3:
+                strcpy(t.jenis, "Kebutuhan Kuliah");
+                break;
+            case 4:
+                strcpy(t.jenis, "Biaya Kesehatan");
+                break;
+            case 5:
+                strcpy(t.jenis, "Hiburan");
+                break;
+            case 6:
+                strcpy(t.jenis, "Komunikasi");
+                break;
+            default:
+                printf("Pilihan tidak valid.\n");
+                return;
+        }
+    } else if (pilihanJenis == 2) {
+        strcpy(t.jenis, "Pendapatan");
+    } else {
+        printf("Pilihan tidak valid.\n");
+        return;
+    }
+    
+    printf("Jumlah: ");
+    scanf("%f", &t.jumlah);
+    
+    // Menulis data ke file
+    fprintf(file, "%s %.2f\n", t.jenis, t.jumlah);
+    
+    fclose(file); // Menutup file
+    printf("Transaksi berhasil ditambahkan.\n");
+}
+
+// Fungsi untuk melihat transaksi
+void lihatTransaksi() {
+    system("cls"); // Membersihkan layar
+    printf("\nLihat Transaksi\n");
+    struct Transaksi t;
+    FILE *file;
+    file = fopen("pendataan2.txt", "r"); // Membuka file untuk membaca data
+    
+    if (file == NULL) {
+        printf("Belum ada transaksi yang dimasukkan.\n");
+        return;
+    }
+    
+    printf("Jenis\t\tJumlah\n");
+    while (fscanf(file, "%s %f", t.jenis, &t.jumlah) != EOF) {
+        printf("%-15s %.2f\n", t.jenis, t.jumlah);
+    }
+    
+    fclose(file); // Menutup file
+}
+
+// Fungsi rekursif untuk mencari transaksi berdasarkan jenisnya
+void cariTransaksi(char jenisCari[20], FILE *file) {
+    struct Transaksi t;
+    if (fscanf(file, "%s %f", t.jenis, &t.jumlah) == EOF)
+        return;
+    
+    if (strcmp(t.jenis, jenisCari) == 0)
+        printf("%s\t%.2f\n", t.jenis, t.jumlah);
+    
+    cariTransaksi(jenisCari, file);
+}
+
+// Fungsi untuk mencari transaksi
+void searchTransaksi() {
+    system("cls"); // Membersihkan layar
+    printf("\nCari Transaksi\n");
+    char jenisCari[20];
+    printf("Masukkan jenis transaksi yang ingin dicari: ");
+    scanf("%s", jenisCari);
+    
+    // Membersihkan input buffer
+    fflush(stdin);
+    
+    FILE *file;
+    file = fopen("pendataan2.txt", "r"); // Membuka file untuk membaca data
+    
+    if (file == NULL) {
+        printf("Belum ada transaksi yang dimasukkan.\n");
+        return;
+    }
+    
+    printf("Jenis\t\tJumlah\n");
+    cariTransaksi(jenisCari, file);
+    
+    fclose(file); // Menutup file
+}
+
+// Fungsi untuk menampilkan jenis pengeluaran
+void displayJenisPengeluaran() {
+    printf("\n=== Jenis Pengeluaran ===\n");
+    printf("1. Makan\n");
+    printf("2. Transportasi\n");
+    printf("3. Kebutuhan Kuliah\n");
+    printf("4. Biaya Kesehatan\n");
+    printf("5. Hiburan\n");
+    printf("6. Komunikasi\n");
+}
+
+// Fungsi untuk mengurutkan transaksi
+void urutkanTransaksi() {
+    system("cls"); // Membersihkan layar
+    printf("\nUrutkan Transaksi\n");
+    
+    struct Transaksi *transaksi;
+    int jumlahTransaksi = 0;
+    FILE *file;
+    file = fopen("pendataan2.txt", "r"); // Membuka file untuk membaca data
+    
+    if (file == NULL) {
+        printf("Belum ada transaksi yang dimasukkan.\n");
+        return;
+    }
+    
+    // Menghitung jumlah transaksi
+    while (!feof(file)) {
+        char c = fgetc(file);
+        if (c == '\n')
+            jumlahTransaksi++;
+    }
+    fseek(file, 0, SEEK_SET); // Mengembalikan pointer file ke awal
+    
+    // Mengalokasikan memori untuk array transaksi
+    transaksi = (struct Transaksi *)malloc(jumlahTransaksi * sizeof(struct Transaksi));
+    
+    // Membaca data transaksi ke dalam array
+    int i = 0;
+    while (fscanf(file, "%s %f", transaksi[i].jenis, &transaksi[i].jumlah) != EOF) {
+        i++;
+    }
+    fclose(file); // Menutup file
+    
+    // Mengurutkan transaksi
+    qsort(transaksi, jumlahTransaksi, sizeof(struct Transaksi), compare);
+    
+    // Menampilkan transaksi yang sudah diurutkan
+    printf("Jenis\t\tJumlah\n");
+    for (i = 0; i < jumlahTransaksi; i++) {
+        printf("%-15s %.2f\n", transaksi[i].jenis, transaksi[i].jumlah);
+    }
+    
+    free(transaksi); // Mendealokasikan memori
+}
+
