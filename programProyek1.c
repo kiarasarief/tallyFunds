@@ -6,15 +6,15 @@ Group 13:
 2. Putri Kiara Salsabila Arief (2306250743)
 
 Class: PROGLAN02 (Dr. Ir. Dodi Sudiana M.Eng.)
-Date: 18/03/2024
-Version Number: 1.0
-1
+Date: 24/03/2024
+Version Number: 2.0
+
 "Advanced Programming Practicum"
-Final Project - "TallyFunds: Program Pencatat Uang Pengeluaran dan Pendapatan"
+Mid Project - "TallyFunds: Program Pencatat Uang Pengeluaran dan Pendapatan"
 
 Program purpose: The program is designed to record the user's income and expenses. 
 The user can add, view, search, and sort transactions. The program will store the transactions in a file called "pendataan.txt".
-There are 5 main features in this program:
+There are 5 main features in this program:1
 1. Help: Display the help menu. 
 2. Add Transaction: Add a new transaction to the file.
 3. View Transaction: Display all transactions that have been entered.
@@ -26,6 +26,7 @@ There are 5 main features in this program:
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <conio.h> // Tambahkan library ini untuk menggunakan clrscr()
 
 #define SIZE 100 // Ukuran maksimum array transaksi
 
@@ -45,6 +46,27 @@ typedef struct Transaksi {
     char jenis[50];
     float jumlah;
 } Transaksi;
+
+// Definisikan fungsi compare
+int compare(const void *a, const void *b) {
+    const Transaksi *transaksiA = (const Transaksi *)a;
+    const Transaksi *transaksiB = (const Transaksi *)b;
+    
+    if (transaksiA->jumlah < transaksiB->jumlah) return -1;
+    else if (transaksiA->jumlah > transaksiB->jumlah) return 1;
+    else return 0;
+}
+
+// Definisikan fungsi displayMenu
+void displayMenu() {
+    printf("\n=== Selamat Datang di TallyFunds! ===\n");
+    printf("1. Help\n");
+    printf("2. Tambah Transaksi\n");
+    printf("3. Lihat Transaksi\n");
+    printf("4. Cari Transaksi\n");
+    printf("5. Urutkan Transaksi\n");
+    printf("6. Exit\n");
+}
 
 int main() {
     int pilihan;
@@ -78,17 +100,6 @@ int main() {
     return 0;
 }
 
-// Fungsi untuk menampilkan menu
-void displayMenu() {
-    printf("\n=== Selamat Datang di TallyFunds! ===\n");
-    printf("1. Help\n");
-    printf("2. Tambah Transaksi\n");
-    printf("3. Lihat Transaksi\n");
-    printf("4. Cari Transaksi\n");
-    printf("5. Urutkan Transaksi\n");
-    printf("6. Exit\n");
-}
-
 // Fungsi untuk menampilkan bantuan
 void displayHelp() {
     system("cls"); // Membersihkan layar
@@ -99,7 +110,7 @@ void displayHelp() {
     printf("3. Pilih opsi 'Cari Transaksi' untuk mencari transaksi berdasarkan jenisnya.\n");
     printf("4. Pilih opsi 'Urutkan Transaksi' untuk mengurutkan transaksi berdasarkan jumlahnya.\n");
     printf("5. Pilih opsi 'Exit' untuk keluar dari program.\n");
-    printf("6. Selamat menggunakan!\n");
+    printf("Selamat menggunakan!\n");
 }
 
 // Fungsi untuk menambahkan transaksi
@@ -107,7 +118,7 @@ void tambahTransaksi() {
     system("cls"); // Membersihkan layar
     struct Transaksi t;
     FILE *file;
-    file = fopen("pendataan.txt", "a"); // Membuka file untuk menambahkan data
+    file = fopen("pendataan_2.0.txt", "a"); // Membuka file untuk menambahkan data
     
     printf("\nTambah Transaksi\n");
     
@@ -167,7 +178,7 @@ void lihatTransaksi() {
     printf("\nLihat Transaksi\n");
     struct Transaksi t;
     FILE *file;
-    file = fopen("pendataan.txt", "r"); // Membuka file untuk membaca data
+    file = fopen("pendataan_2.0.txt", "r"); // Membuka file untuk membaca data
     
     if (file == NULL) {
         printf("Belum ada transaksi yang dimasukkan.\n");
@@ -186,9 +197,9 @@ void lihatTransaksi() {
 void cariTransaksi(char jenisCari[20], FILE *file) {
     struct Transaksi t;
     if (fscanf(file, "%s %f", t.jenis, &t.jumlah) == EOF)
-        return;
+    return;
     
-    if (strcmp(t.jenis, jenisCari) == 0)
+    if (strcasecmp(t.jenis, jenisCari) == 0)
         printf("%s\t%.2f\n", t.jenis, t.jumlah);
     
     cariTransaksi(jenisCari, file);
@@ -206,7 +217,7 @@ void searchTransaksi() {
     fflush(stdin);
     
     FILE *file;
-    file = fopen("pendataan.txt", "r"); // Membuka file untuk membaca data
+    file = fopen("pendataan_2.0.txt", "r"); // Membuka file untuk membaca data
     
     if (file == NULL) {
         printf("Belum ada transaksi yang dimasukkan.\n");
@@ -238,7 +249,7 @@ void urutkanTransaksi() {
     struct Transaksi *transaksi;
     int jumlahTransaksi = 0;
     FILE *file;
-    file = fopen("pendataan.txt", "r"); // Membuka file untuk membaca data
+    file = fopen("pendataan_2.0.txt", "r"); // Membuka file untuk membaca data
     
     if (file == NULL) {
         printf("Belum ada transaksi yang dimasukkan.\n");
@@ -274,4 +285,3 @@ void urutkanTransaksi() {
     
     free(transaksi); // Mendealokasikan memori
 }
-
