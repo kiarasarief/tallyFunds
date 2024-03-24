@@ -6,8 +6,8 @@ Group 13:
 2. Putri Kiara Salsabila Arief (2306250743)
 
 Class: PROGLAN02 (Dr. Ir. Dodi Sudiana M.Eng.)
-Date: 24/03/2024
-Version Number: 2.0
+Date: 18/03/2024
+Version Number: 1.5
 
 "Advanced Programming Practicum"
 Mid Project - "TallyFunds: Program Pencatat Uang Pengeluaran dan Pendapatan"
@@ -118,7 +118,7 @@ void tambahTransaksi() {
     system("cls"); // Membersihkan layar
     struct Transaksi t;
     FILE *file;
-    file = fopen("pendataan_2.0.txt", "a"); // Membuka file untuk menambahkan data
+    file = fopen("pendataan.txt", "a"); // Membuka file untuk menambahkan data
     
     printf("\nTambah Transaksi\n");
     
@@ -178,7 +178,7 @@ void lihatTransaksi() {
     printf("\nLihat Transaksi\n");
     struct Transaksi t;
     FILE *file;
-    file = fopen("pendataan_2.0.txt", "r"); // Membuka file untuk membaca data
+    file = fopen("pendataan.txt", "r"); // Membuka file untuk membaca data
     
     if (file == NULL) {
         printf("Belum ada transaksi yang dimasukkan.\n");
@@ -217,7 +217,7 @@ void searchTransaksi() {
     fflush(stdin);
     
     FILE *file;
-    file = fopen("pendataan_2.0.txt", "r"); // Membuka file untuk membaca data
+    file = fopen("pendataan.txt", "r"); // Membuka file untuk membaca data
     
     if (file == NULL) {
         printf("Belum ada transaksi yang dimasukkan.\n");
@@ -249,7 +249,7 @@ void urutkanTransaksi() {
     struct Transaksi *transaksi;
     int jumlahTransaksi = 0;
     FILE *file;
-    file = fopen("pendataan_2.0.txt", "r"); // Membuka file untuk membaca data
+    file = fopen("pendataan.txt", "r"); // Membuka file untuk membaca data
     
     if (file == NULL) {
         printf("Belum ada transaksi yang dimasukkan.\n");
